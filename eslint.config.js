@@ -26,5 +26,13 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: ['**/*.{test,spec}.{ts,tsx}', 'src/test/**/*.{ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+  },
   eslintConfigPrettier,
 );
