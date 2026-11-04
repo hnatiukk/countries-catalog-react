@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SectionTitleBar matches snapshot 1`] = `
+.c0 {
+  background-color: #ebebeb;
+  border-bottom: 1px solid #dddddd;
+}
+
+.c1 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.c2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333333;
+}
+
+.c3 {
+  font-weight: 700;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <h2
+      class="c2"
+    >
+      More countries in the same region
+       
+      <strong
+        class="c3"
+      >
+        Europe
+      </strong>
+    </h2>
+  </div>
+</div>
+`;

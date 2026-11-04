@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Logo matches snapshot 1`] = `
+.c0 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #F65261;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  line-height: 1;
+}
+
+<span
+  class="c0"
+>
+  countriescatalog
+</span>
+`;

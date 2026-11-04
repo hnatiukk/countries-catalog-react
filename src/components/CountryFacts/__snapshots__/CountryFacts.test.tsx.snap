@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CountryFacts matches snapshot with an empty list 1`] = `
+.c0 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+<dl
+  class="c0"
+/>
+`;
+
+exports[`CountryFacts matches snapshot with facts 1`] = `
+.c0 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.c1 {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+  font-size: 1rem;
+}
+
+.c2 {
+  margin: 0;
+  color: #777777;
+  font-weight: 500;
+}
+
+.c3 {
+  margin: 0;
+  color: #ffffff;
+}
+
+@media (max-width: 480px) {
+  .c1 {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+<dl
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <dt
+      class="c2"
+    >
+      Capital
+    </dt>
+    <dd
+      class="c3"
+    >
+      Kyiv
+    </dd>
+  </div>
+  <div
+    class="c1"
+  >
+    <dt
+      class="c2"
+    >
+      Languages
+    </dt>
+    <dd
+      class="c3"
+    >
+      Ukrainian
+    </dd>
+  </div>
+</dl>
+`;

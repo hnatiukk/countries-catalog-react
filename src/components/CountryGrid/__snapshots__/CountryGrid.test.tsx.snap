@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CountryGrid matches snapshot 1`] = `
+.c3 {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.c2 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  border: none;
+  padding: 0;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  transition: transform 0.15s ease,box-shadow 0.15s ease;
+}
+
+.c2:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.c2:focus-visible {
+  outline: 2px solid #F65261;
+  outline-offset: 2px;
+}
+
+.c4 {
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.c5 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.c6 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333333;
+}
+
+.c7 {
+  font-size: 0.875rem;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.c8 {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #777777;
+}
+
+.c0 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.c1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .c1 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .c1 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+<section
+  aria-label="Countries"
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <button
+      aria-label="Ukraine"
+      class="c2"
+      type="button"
+    >
+      <img
+        alt="Flag of Ukraine"
+        class="c3"
+        loading="lazy"
+        src="https://flagcdn.com/w320/ua.png"
+      />
+      <div
+        class="c4"
+      >
+        <div
+          class="c5"
+        >
+          <h3
+            class="c6"
+          >
+            Ukraine
+          </h3>
+          <span
+            class="c7"
+          >
+            44,134,693
+          </span>
+        </div>
+        <p
+          class="c8"
+        >
+          Europe
+        </p>
+      </div>
+    </button>
+    <button
+      aria-label="Germany"
+      class="c2"
+      type="button"
+    >
+      <img
+        alt="Flag of Germany"
+        class="c3"
+        loading="lazy"
+        src="https://flagcdn.com/w320/de.png"
+      />
+      <div
+        class="c4"
+      >
+        <div
+          class="c5"
+        >
+          <h3
+            class="c6"
+          >
+            Germany
+          </h3>
+          <span
+            class="c7"
+          >
+            83,240,525
+          </span>
+        </div>
+        <p
+          class="c8"
+        >
+          Europe
+        </p>
+      </div>
+    </button>
+  </div>
+</section>
+`;
