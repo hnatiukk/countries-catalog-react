@@ -18,7 +18,7 @@ lerna-debug.log*
 # Env (keep .env.example; allow committed non-secret env files)
 .env
 .env.local
-.env.*.local
+.env*.local
 
 # Editor / OS
 .DS_Store
