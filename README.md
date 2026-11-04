@@ -56,6 +56,30 @@ All `import.meta.env` access goes through `src/utils/config.ts`.
 | `npm run test:coverage` | Run unit tests with a coverage report |
 | `npm run test:coverage:check` | Coverage report plus a global 60% threshold |
 
+## Project structure
+
+```
+src/
+  api/           # REST Countries client (Task 5)
+  app/           # Redux store, typed hooks
+  features/      # countries slice, selectors, types, temporary mock data
+  components/    # dumb/presentational UI (props only; no Redux/router)
+  containers/    # smart components (Redux + wiring)
+  pages/         # page composition of containers only
+  styles/        # theme + global styles
+  utils/         # config, formatting, logger
+  test/          # Jest setup and shared test helpers
+```
+
+**Smart/dumb rule:** components in `src/components/` receive data and callbacks via
+props and never import Redux or React Router. Containers in `src/containers/`
+connect to the store (and later the router) and pass props down. Pages only
+compose containers.
+
+**Temporary in this task:** `src/features/countries/mockData.ts` feeds the UI until
+the API is wired (Task 5). `App.tsx` uses a small `useState` view switch until
+React Router lands (Task 6).
+
 ## Branching
 
 This project follows GitFlow:
