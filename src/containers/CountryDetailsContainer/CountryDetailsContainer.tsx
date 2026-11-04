@@ -1,13 +1,27 @@
+import { useEffect, useRef } from 'react';
 import { BackToSearchButton } from '@/components/BackToSearchButton';
 import { CountryGrid } from '@/components/CountryGrid';
 import { CountryHero } from '@/components/CountryHero';
 import { EmptyState } from '@/components/EmptyState';
+import { ErrorState } from '@/components/ErrorState';
 import { Header } from '@/components/Header';
+import { LoadingState } from '@/components/LoadingState';
 import { PageShell } from '@/components/PageShell';
 import { SectionTitleBar } from '@/components/SectionTitleBar';
-import { useAppSelector } from '@/app/hooks';
-import { MOCK_COUNTRIES } from '@/features/countries/mockData';
-import { selectSortBy } from '@/features/countries/selectors';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { clearDetails } from '@/features/countries/countriesSlice';
+import {
+  selectDetailsEntity,
+  selectDetailsError,
+  selectDetailsStatus,
+  selectRelatedError,
+  selectRelatedStatus,
+  selectSortedRelatedCountries,
+} from '@/features/countries/selectors';
+import {
+  fetchCountryDetails,
+  fetchRelatedCountries,
+} from '@/features/countries/thunks';
 import { formatArea, formatNumber } from '@/utils/format';
 
 export interface CountryDetailsContainerProps {
@@ -21,22 +35,94 @@ export function CountryDetailsContainer({
   onBack,
   onCountryClick,
 }: CountryDetailsContainerProps) {
-  const sortBy = useAppSelector(selectSortBy);
-  const country = MOCK_COUNTRIES.find((item) => item.cca3 === countryCode);
+  const dispatch = useAppDispatch();
+  const country = useAppSelector(selectDetailsEntity);
+  const detailsStatus = useAppSelector(selectDetailsStatus);
+  const detailsError = useAppSelector(selectDetailsError);
+  const relatedCountries = useAppSelector(selectSortedRelatedCountries);
+  const relatedStatus = useAppSelector(selectRelatedStatus);
+  const relatedError = useAppSelector(selectRelatedError);
+  const detailsRequestRef = useRef<{ abort: () => void } | null>(null);
+  const relatedRequestRef = useRef<{ abort: () => void } | null>(null);
 
-  if (!country) {
+  useEffect(() => {
+    detailsRequestRef.current?.abort();
+    relatedRequestRef.current?.abort();
+    detailsRequestRef.current = dispatch(fetchCountryDetails(countryCode));
+
+    return () => {
+      detailsRequestRef.current?.abort();
+      relatedRequestRef.current?.abort();
+      dispatch(clearDetails());
+    };
+  }, [countryCode, dispatch]);
+
+  useEffect(() => {
+    if (detailsStatus !== 'succeeded' || !country?.region) {
+      return;
+    }
+
+    relatedRequestRef.current?.abort();
+    relatedRequestRef.current = dispatch(
+      fetchRelatedCountries({
+        region: country.region,
+        excludeCode: country.cca3,
+      }),
+    );
+
+    return () => {
+      relatedRequestRef.current?.abort();
+    };
+  }, [detailsStatus, country, dispatch]);
+
+  const handleRetryDetails = () => {
+    detailsRequestRef.current?.abort();
+    detailsRequestRef.current = dispatch(fetchCountryDetails(countryCode));
+  };
+
+  const handleRetryRelated = () => {
+    if (!country?.region) {
+      return;
+    }
+    relatedRequestRef.current?.abort();
+    relatedRequestRef.current = dispatch(
+      fetchRelatedCountries({
+        region: country.region,
+        excludeCode: country.cca3,
+      }),
+    );
+  };
+
+  const header = (
+    <Header actions={<BackToSearchButton onClick={onBack} />} />
+  );
+
+  if (detailsStatus === 'loading' || detailsStatus === 'idle') {
     return (
-      <PageShell header={<Header actions={<BackToSearchButton onClick={onBack} />} />}>
-        <EmptyState message="Country not found" />
+      <PageShell header={header}>
+        <LoadingState message="Loading country…" />
       </PageShell>
     );
   }
 
-  const relatedCountries = [...MOCK_COUNTRIES]
-    .filter(
-      (item) => item.region === country.region && item.cca3 !== country.cca3,
-    )
-    .sort((a, b) => b[sortBy] - a[sortBy]);
+  if (detailsStatus === 'failed') {
+    return (
+      <PageShell header={header}>
+        <ErrorState
+          message={detailsError ?? 'Failed to load country.'}
+          onRetry={handleRetryDetails}
+        />
+      </PageShell>
+    );
+  }
+
+  if (!country) {
+    return (
+      <PageShell header={header}>
+        <EmptyState message="Country not found" />
+      </PageShell>
+    );
+  }
 
   const languages = Object.values(country.languages).join(', ');
   const currencies = Object.values(country.currencies)
@@ -46,6 +132,30 @@ export function CountryDetailsContainer({
         : currency.name,
     )
     .join(', ');
+
+  let relatedContent;
+  if (relatedStatus === 'loading' || relatedStatus === 'idle') {
+    relatedContent = <LoadingState message="Loading related countries…" />;
+  } else if (relatedStatus === 'failed') {
+    relatedContent = (
+      <ErrorState
+        message={relatedError ?? 'Failed to load related countries.'}
+        onRetry={handleRetryRelated}
+      />
+    );
+  } else if (relatedCountries.length > 0) {
+    relatedContent = (
+      <CountryGrid
+        countries={relatedCountries}
+        onCountryClick={onCountryClick}
+        aria-label={`More countries in ${country.region}`}
+      />
+    );
+  } else {
+    relatedContent = (
+      <EmptyState message="No other countries in this region" />
+    );
+  }
 
   return (
     <PageShell
@@ -75,15 +185,7 @@ export function CountryDetailsContainer({
         prefix="More countries in the same region"
         emphasis={country.region}
       />
-      {relatedCountries.length > 0 ? (
-        <CountryGrid
-          countries={relatedCountries}
-          onCountryClick={onCountryClick}
-          aria-label={`More countries in ${country.region}`}
-        />
-      ) : (
-        <EmptyState message="No other countries in this region" />
-      )}
+      {relatedContent}
     </PageShell>
   );
 }

@@ -1,9 +1,25 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from './App';
+import * as countriesApi from '@/api/countriesApi';
+import { france, germany, ukraine } from '@/test/countryFixtures';
 import { renderWithProviders } from '@/test/test-utils';
+import App from './App';
+
+jest.mock('@/api/countriesApi');
+
+const mockedApi = countriesApi as jest.Mocked<typeof countriesApi>;
 
 describe('App', () => {
+  beforeEach(() => {
+    mockedApi.searchCountriesByName.mockResolvedValue([ukraine]);
+    mockedApi.getCountryByCode.mockResolvedValue(ukraine);
+    mockedApi.getRelatedCountries.mockResolvedValue([germany, france]);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('renders the search page heading', () => {
     renderWithProviders(<App />);
 
@@ -29,16 +45,19 @@ describe('App', () => {
       'Ukraine',
     );
     await user.click(screen.getByRole('button', { name: 'Search' }));
-    await user.click(screen.getByRole('button', { name: 'Ukraine' }));
+
+    await user.click(await screen.findByRole('button', { name: 'Ukraine' }));
 
     expect(
-      screen.getByRole('heading', { name: 'Ukraine' }),
+      await screen.findByRole('heading', { name: 'Ukraine' }),
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Back to search' }));
 
-    expect(
-      screen.getByRole('heading', { name: 'Find your country' }),
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: 'Find your country' }),
+      ).toBeInTheDocument();
+    });
   });
 });

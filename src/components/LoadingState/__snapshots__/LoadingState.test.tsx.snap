@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`LoadingState matches snapshot with a custom message 1`] = `
+.c0 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.c1 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #777777;
+}
+
+<div
+  aria-busy="true"
+  aria-live="polite"
+  class="c0"
+  role="status"
+>
+  <p
+    class="c1"
+  >
+    Loading countries…
+  </p>
+</div>
+`;
+
+exports[`LoadingState matches snapshot with the default message 1`] = `
+.c0 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.c1 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #777777;
+}
+
+<div
+  aria-busy="true"
+  aria-live="polite"
+  class="c0"
+  role="status"
+>
+  <p
+    class="c1"
+  >
+    Loading…
+  </p>
+</div>
+`;
