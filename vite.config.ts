@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, type ProxyOptions } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -28,25 +28,14 @@ function vendorChunk(id: string): string | undefined {
   return undefined;
 }
 
-function createApiProxy(apiKey: string) {
+function createApiProxy(apiKey: string): Record<string, ProxyOptions> {
   return {
     [API_PROXY_PREFIX]: {
       target: API_PROXY_TARGET,
       changeOrigin: true,
       secure: true,
-      rewrite: (requestPath: string) =>
-        requestPath.replace(/^\/api/, ''),
-      configure: (
-        proxy: {
-          on: (
-            event: string,
-            listener: (proxyReq: {
-              setHeader: (name: string, value: string) => void;
-              removeHeader: (name: string) => void;
-            }) => void,
-          ) => void;
-        },
-      ) => {
+      rewrite: (requestPath) => requestPath.replace(/^\/api/, ''),
+      configure: (proxy) => {
         proxy.on('proxyReq', (proxyReq) => {
           proxyReq.removeHeader('origin');
           if (apiKey) {

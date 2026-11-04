@@ -7,7 +7,8 @@ alwaysApply: true
 
 University educational project. A catalog web app built with React that lets users
 search countries, sort results, and open a country details page.
-Data source: REST Countries API v3.1 (https://restcountries.com), free, no API key.
+Data source: REST Countries API v5 (https://api.restcountries.com/countries/v5),
+Bearer auth via `VITE_API_KEY`.
 
 ## Stack (do not substitute without asking)
 - Vite + React + TypeScript (strict mode)
@@ -55,9 +56,22 @@ Two pages, English interface.
 - Typed everything: no `any`; API responses have explicit TypeScript interfaces.
 - Named exports for components, one component per file, file name = component name.
 
-## REST Countries API notes
-OUTDATED: REST Countries v3.1 is retired. The API layer will be redesigned in Task 5.
-Do not write API code until instructed.
+## REST Countries API notes (v5, verified)
+- Base URL: `https://api.restcountries.com/countries/v5`
+- Auth: `Authorization: Bearer <key>` (from `VITE_API_KEY` in `.env.local`; never commit/log the key)
+- Envelope: `{ data: { objects: T[], meta: { total, count, limit, offset, more, request_id?, duration? } } }`
+- List: `GET /?q=` (full-text, case-insensitive, many fields) or `GET /?region=` (case-insensitive;
+  known values: Africa, Americas, Antarctic, Asia, Europe, Oceania). Empty results → 200 + `objects: []`
+- Read: `GET /codes.alpha_3/{CODE}` → `objects` length 0 or 1 (unknown code → empty list, not 404)
+- Field paths: `names.common`, `codes.alpha_3`, `flag.url_png` / `flag.url_svg` / `flag.description`,
+  `region`, `subregion`, `capitals[].name`, `population`, `area.kilometers`, `languages[]`, `currencies[]`
+- Pagination: default `limit` 25; free plan max 100/request; follow `offset` while `meta.more`.
+  `response_fields` works on list and read. No usable server-side sort — sort client-side.
+- Errors: 401 `authKeyNotFound`/`authKeyMissing`; 400 `limitOutOfRange`; 403 `limitPaidPlanOnly` /
+  `originNotAllowed`; map 429 → rate limited. Error body: `{ errors: [{ message, code }] }`
+- CORS: browser Origin `http://localhost:5173` is rejected (`originNotAllowed`) for keys without that
+  origin allowlisted. Local/preview use Vite proxy at `/api/countries/v5` that strips Origin and
+  injects Authorization. `.env.development` / `.env.production` set `VITE_API_BASE_URL=/api/countries/v5`.
 
 ## Routing
 - `/` : empty state, "0 countries found", no request is made.

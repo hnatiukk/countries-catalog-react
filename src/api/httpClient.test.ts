@@ -3,10 +3,10 @@ import { apiGet, __test__ } from './httpClient';
 import { ApiError } from './types';
 
 describe('httpClient', () => {
-  const originalFetch = global.fetch;
+  const originalFetch = globalThis.fetch;
 
   afterEach(() => {
-    global.fetch = originalFetch;
+    globalThis.fetch = originalFetch;
     jest.restoreAllMocks();
   });
 
@@ -40,7 +40,7 @@ describe('httpClient', () => {
           data: { objects: [], meta: { total: 0, count: 0, limit: 100, offset: 0, more: false } },
         }),
       });
-      global.fetch = fetchMock as unknown as typeof fetch;
+      globalThis.fetch = fetchMock as unknown as typeof fetch;
 
       await apiGet({ query: { q: 'ukraine' } });
 
@@ -55,7 +55,7 @@ describe('httpClient', () => {
     });
 
     it('returns a valid envelope', async () => {
-      global.fetch = jest.fn().mockResolvedValue({
+      globalThis.fetch = jest.fn().mockResolvedValue({
         ok: true,
         status: 200,
         headers: { get: () => 'application/json' },
@@ -76,7 +76,7 @@ describe('httpClient', () => {
     });
 
     it('throws unauthorized for 401', async () => {
-      global.fetch = jest.fn().mockResolvedValue({
+      globalThis.fetch = jest.fn().mockResolvedValue({
         ok: false,
         status: 401,
         headers: { get: () => 'application/json' },
@@ -93,7 +93,7 @@ describe('httpClient', () => {
     });
 
     it('throws rateLimited for 429', async () => {
-      global.fetch = jest.fn().mockResolvedValue({
+      globalThis.fetch = jest.fn().mockResolvedValue({
         ok: false,
         status: 429,
         headers: { get: () => 'application/json' },
@@ -109,7 +109,7 @@ describe('httpClient', () => {
     });
 
     it('throws notFound for 404', async () => {
-      global.fetch = jest.fn().mockResolvedValue({
+      globalThis.fetch = jest.fn().mockResolvedValue({
         ok: false,
         status: 404,
         headers: { get: () => 'application/json' },
@@ -123,7 +123,7 @@ describe('httpClient', () => {
     });
 
     it('throws server for 500', async () => {
-      global.fetch = jest.fn().mockResolvedValue({
+      globalThis.fetch = jest.fn().mockResolvedValue({
         ok: false,
         status: 500,
         headers: { get: () => 'application/json' },
@@ -139,7 +139,7 @@ describe('httpClient', () => {
     });
 
     it('throws invalidResponse when objects is missing', async () => {
-      global.fetch = jest.fn().mockResolvedValue({
+      globalThis.fetch = jest.fn().mockResolvedValue({
         ok: true,
         status: 200,
         headers: { get: () => 'application/json' },
@@ -152,7 +152,9 @@ describe('httpClient', () => {
     });
 
     it('throws network when fetch rejects', async () => {
-      global.fetch = jest.fn().mockRejectedValue(new TypeError('Failed to fetch'));
+      globalThis.fetch = jest
+        .fn()
+        .mockRejectedValue(new TypeError('Failed to fetch'));
 
       await expect(apiGet()).rejects.toMatchObject({
         kind: 'network',
@@ -163,7 +165,7 @@ describe('httpClient', () => {
       const controller = new AbortController();
       controller.abort();
 
-      global.fetch = jest.fn().mockImplementation(() => {
+      globalThis.fetch = jest.fn().mockImplementation(() => {
         const error = new DOMException('Aborted', 'AbortError');
         return Promise.reject(error);
       }) as unknown as typeof fetch;

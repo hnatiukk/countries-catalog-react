@@ -9,36 +9,22 @@ export function stubNameSearch(
   fixture: string,
   options: { delay?: number; statusCode?: number } = {},
 ) {
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: '/api/countries/v5',
-      query: { q: /.*/ },
-    },
-    {
-      fixture,
-      delay: options.delay ?? 0,
-      statusCode: options.statusCode ?? 200,
-    },
-  ).as('nameSearch');
+  cy.intercept('GET', '/api/countries/v5?*q=*', {
+    fixture,
+    delay: options.delay ?? 0,
+    statusCode: options.statusCode ?? 200,
+  }).as('nameSearch');
 }
 
 export function stubRegionSearch(
   fixture: string,
   options: { delay?: number; statusCode?: number } = {},
 ) {
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: '/api/countries/v5',
-      query: { region: /.*/ },
-    },
-    {
-      fixture,
-      delay: options.delay ?? 0,
-      statusCode: options.statusCode ?? 200,
-    },
-  ).as('regionSearch');
+  cy.intercept('GET', '/api/countries/v5?*region=*', {
+    fixture,
+    delay: options.delay ?? 0,
+    statusCode: options.statusCode ?? 200,
+  }).as('regionSearch');
 }
 
 export function stubCountryDetails(
