@@ -1,3 +1,4 @@
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as countriesApi from '@/api/countriesApi';
@@ -13,6 +14,11 @@ import { CountryGridContainer } from './CountryGridContainer';
 jest.mock('@/api/countriesApi');
 
 const mockedApi = countriesApi as jest.Mocked<typeof countriesApi>;
+
+function LocationProbe() {
+  const location = useLocation();
+  return <div data-testid="location">{location.pathname}</div>;
+}
 
 describe('CountryGridContainer', () => {
   afterEach(() => {
@@ -80,12 +86,22 @@ describe('CountryGridContainer', () => {
     expect(cards[2]).toHaveAccessibleName('Ukraine');
   });
 
-  it('calls onCountryClick with the country code', async () => {
+  it('navigates to the country page when a card is clicked', async () => {
     const user = userEvent.setup();
-    const onCountryClick = jest.fn();
 
     renderWithProviders(
-      <CountryGridContainer onCountryClick={onCountryClick} />,
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <CountryGridContainer />
+              <LocationProbe />
+            </>
+          }
+        />
+        <Route path="/country/:code" element={<LocationProbe />} />
+      </Routes>,
       {
         preloadedState: {
           countries: countriesState({
@@ -99,6 +115,6 @@ describe('CountryGridContainer', () => {
 
     await user.click(screen.getByRole('button', { name: 'Ukraine' }));
 
-    expect(onCountryClick).toHaveBeenCalledWith('UKR');
+    expect(screen.getByTestId('location')).toHaveTextContent('/country/UKR');
   });
 });

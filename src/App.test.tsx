@@ -1,9 +1,9 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as countriesApi from '@/api/countriesApi';
+import { AppRoutes } from '@/app/router';
 import { france, germany, ukraine } from '@/test/countryFixtures';
 import { renderWithProviders } from '@/test/test-utils';
-import App from './App';
 
 jest.mock('@/api/countriesApi');
 
@@ -21,7 +21,7 @@ describe('App', () => {
   });
 
   it('renders the search page heading', () => {
-    renderWithProviders(<App />);
+    renderWithProviders(<AppRoutes />);
 
     expect(
       screen.getByRole('heading', { name: 'Find your country' }),
@@ -29,7 +29,7 @@ describe('App', () => {
   });
 
   it('shows the empty results state by default', () => {
-    renderWithProviders(<App />);
+    renderWithProviders(<AppRoutes />);
 
     expect(screen.getByText('0 countries found')).toBeInTheDocument();
     expect(screen.getByText('No results')).toBeInTheDocument();
@@ -38,7 +38,7 @@ describe('App', () => {
   it('opens a country page from a card and returns via back', async () => {
     const user = userEvent.setup();
 
-    renderWithProviders(<App />);
+    renderWithProviders(<AppRoutes />);
 
     await user.type(
       screen.getByRole('searchbox', { name: 'Search countries' }),

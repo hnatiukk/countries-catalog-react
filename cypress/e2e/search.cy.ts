@@ -38,6 +38,7 @@ describe('Countries catalog e2e', () => {
   it('renders the search page chrome with default toggles and empty grid', () => {
     cy.visit('/');
 
+    cy.location('pathname').should('eq', '/');
     cy.findByRole('heading', { name: 'Find your country' }).should(
       'be.visible',
     );
@@ -64,6 +65,7 @@ describe('Countries catalog e2e', () => {
     searchByName('Ukraine');
 
     cy.wait('@nameSearch');
+    cy.location('pathname').should('eq', '/search/Ukraine');
     cy.findByText('1 countries found').should('be.visible');
     cy.findByRole('button', { name: 'Ukraine' }).should('be.visible');
   });
@@ -74,6 +76,7 @@ describe('Countries catalog e2e', () => {
     searchByRegion('Europe');
 
     cy.wait('@regionSearch');
+    cy.location('pathname').should('eq', '/search/Europe');
     cy.findByText('6 countries found').should('be.visible');
     cy.findByRole('button', { name: 'Albania' }).should('be.visible');
     cy.findByRole('button', { name: 'Belgium' }).should('be.visible');
@@ -108,6 +111,7 @@ describe('Countries catalog e2e', () => {
     searchByName('zzzznotacountry999');
 
     cy.wait('@nameSearch');
+    cy.location('pathname').should('eq', '/search/zzzznotacountry999');
     cy.findByText('0 countries found').should('be.visible');
     cy.findByRole('status').should('contain.text', 'No results');
   });
@@ -125,6 +129,7 @@ describe('Countries catalog e2e', () => {
     cy.wait('@countryDetails');
     cy.wait('@regionSearch');
 
+    cy.location('pathname').should('eq', '/country/UKR');
     cy.findByRole('heading', { name: 'Ukraine' }).should('be.visible');
     cy.findByText('Europe · Eastern Europe').should('be.visible');
     cy.findByText('28,700,000').should('be.visible');
@@ -133,6 +138,7 @@ describe('Countries catalog e2e', () => {
 
     cy.findByRole('button', { name: 'Back to search' }).click();
 
+    cy.location('pathname').should('eq', '/search/Ukraine');
     cy.findByRole('heading', { name: 'Find your country' }).should(
       'be.visible',
     );
@@ -190,5 +196,42 @@ describe('Countries catalog e2e', () => {
 
     cy.findByText('6 countries found').should('be.visible');
     cy.findByRole('button', { name: 'Argentina' }).should('be.visible');
+  });
+
+  it('shows results when visiting /search/:query directly', () => {
+    stubNameSearch('search-name-ukraine.json');
+    cy.visit('/search/Ukraine');
+
+    cy.wait('@nameSearch');
+    cy.location('pathname').should('eq', '/search/Ukraine');
+    cy.findByRole('searchbox', { name: 'Search countries' }).should(
+      'have.value',
+      'Ukraine',
+    );
+    cy.findByText('1 countries found').should('be.visible');
+    cy.findByRole('button', { name: 'Ukraine' }).should('be.visible');
+  });
+
+  it('keeps the URL unchanged when toggling search type or sort', () => {
+    stubNameSearch('search-name-ukraine.json');
+    cy.visit('/search/Ukraine');
+    cy.wait('@nameSearch');
+
+    cy.location('pathname').should('eq', '/search/Ukraine');
+    cy.findByRole('button', { name: 'Region' }).click();
+    cy.location('pathname').should('eq', '/search/Ukraine');
+    cy.findByRole('button', { name: 'Area' }).click();
+    cy.location('pathname').should('eq', '/search/Ukraine');
+  });
+
+  it('shows the 404 page for unknown URLs and returns to /', () => {
+    cy.visit('/this-page-does-not-exist');
+
+    cy.findByRole('heading', { name: 'Page not found' }).should('be.visible');
+    cy.findByRole('button', { name: 'Go to search' }).click();
+    cy.location('pathname').should('eq', '/');
+    cy.findByRole('heading', { name: 'Find your country' }).should(
+      'be.visible',
+    );
   });
 });
