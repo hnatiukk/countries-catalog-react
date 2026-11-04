@@ -1,17 +1,13 @@
-import { PageShell } from '@/components/PageShell';
 import { CountryGridContainer } from '@/containers/CountryGridContainer';
 import { ResultsBarContainer } from '@/containers/ResultsBarContainer';
 import { SearchHeaderContainer } from '@/containers/SearchHeaderContainer';
+import { PageShell } from '@/components/PageShell';
 
-export interface SearchPageProps {
-  onCountryClick: (code: string) => void;
-}
-
-export function SearchPage({ onCountryClick }: SearchPageProps) {
+export function SearchPage() {
   return (
     <PageShell header={<SearchHeaderContainer />}>
       <ResultsBarContainer />
-      <CountryGridContainer onCountryClick={onCountryClick} />
+      <CountryGridContainer />
     </PageShell>
   );
 }

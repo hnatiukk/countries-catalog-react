@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BackToSearchButton } from '@/components/BackToSearchButton';
 import { CountryGrid } from '@/components/CountryGrid';
 import { CountryHero } from '@/components/CountryHero';
@@ -6,6 +7,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { ErrorState } from '@/components/ErrorState';
 import { Header } from '@/components/Header';
 import { LoadingState } from '@/components/LoadingState';
+import { NotFoundView } from '@/components/NotFoundView';
 import { PageShell } from '@/components/PageShell';
 import { SectionTitleBar } from '@/components/SectionTitleBar';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
@@ -14,6 +16,7 @@ import {
   selectDetailsEntity,
   selectDetailsError,
   selectDetailsStatus,
+  selectLastSearch,
   selectRelatedError,
   selectRelatedStatus,
   selectSortedRelatedCountries,
@@ -24,28 +27,26 @@ import {
 } from '@/features/countries/thunks';
 import { formatArea, formatNumber } from '@/utils/format';
 
-export interface CountryDetailsContainerProps {
-  countryCode: string;
-  onBack: () => void;
-  onCountryClick?: (code: string) => void;
-}
-
-export function CountryDetailsContainer({
-  countryCode,
-  onBack,
-  onCountryClick,
-}: CountryDetailsContainerProps) {
+export function CountryDetailsContainer() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { code: codeParam } = useParams<{ code: string }>();
+  const countryCode = codeParam ?? '';
   const country = useAppSelector(selectDetailsEntity);
   const detailsStatus = useAppSelector(selectDetailsStatus);
   const detailsError = useAppSelector(selectDetailsError);
   const relatedCountries = useAppSelector(selectSortedRelatedCountries);
   const relatedStatus = useAppSelector(selectRelatedStatus);
   const relatedError = useAppSelector(selectRelatedError);
+  const lastSearch = useAppSelector(selectLastSearch);
   const detailsRequestRef = useRef<{ abort: () => void } | null>(null);
   const relatedRequestRef = useRef<{ abort: () => void } | null>(null);
 
   useEffect(() => {
+    if (!countryCode) {
+      return;
+    }
+
     detailsRequestRef.current?.abort();
     relatedRequestRef.current?.abort();
     detailsRequestRef.current = dispatch(fetchCountryDetails(countryCode));
@@ -76,6 +77,9 @@ export function CountryDetailsContainer({
   }, [detailsStatus, country, dispatch]);
 
   const handleRetryDetails = () => {
+    if (!countryCode) {
+      return;
+    }
     detailsRequestRef.current?.abort();
     detailsRequestRef.current = dispatch(fetchCountryDetails(countryCode));
   };
@@ -93,9 +97,34 @@ export function CountryDetailsContainer({
     );
   };
 
+  const handleBack = () => {
+    if (lastSearch?.query) {
+      void navigate(`/search/${encodeURIComponent(lastSearch.query)}`);
+      return;
+    }
+    void navigate('/');
+  };
+
+  const handleCountryClick = (code: string) => {
+    void navigate(`/country/${code}`);
+    window.scrollTo(0, 0);
+  };
+
+  const handleGoHome = () => {
+    void navigate('/');
+  };
+
   const header = (
-    <Header actions={<BackToSearchButton onClick={onBack} />} />
+    <Header actions={<BackToSearchButton onClick={handleBack} />} />
   );
+
+  if (!countryCode) {
+    return (
+      <PageShell header={<Header />}>
+        <NotFoundView onGoHome={handleGoHome} />
+      </PageShell>
+    );
+  }
 
   if (detailsStatus === 'loading' || detailsStatus === 'idle') {
     return (
@@ -118,8 +147,12 @@ export function CountryDetailsContainer({
 
   if (!country) {
     return (
-      <PageShell header={header}>
-        <EmptyState message="Country not found" />
+      <PageShell header={<Header />}>
+        <NotFoundView
+          onGoHome={handleGoHome}
+          title="Page not found"
+          message="The country you are looking for does not exist."
+        />
       </PageShell>
     );
   }
@@ -147,7 +180,7 @@ export function CountryDetailsContainer({
     relatedContent = (
       <CountryGrid
         countries={relatedCountries}
-        onCountryClick={onCountryClick}
+        onCountryClick={handleCountryClick}
         aria-label={`More countries in ${country.region}`}
       />
     );
@@ -160,7 +193,7 @@ export function CountryDetailsContainer({
   return (
     <PageShell
       header={
-        <Header actions={<BackToSearchButton onClick={onBack} />}>
+        <Header actions={<BackToSearchButton onClick={handleBack} />}>
           <CountryHero
             name={country.name.common}
             flagPng={country.flags.png}

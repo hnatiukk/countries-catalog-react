@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { CountryGrid } from '@/components/CountryGrid';
 import { EmptyState } from '@/components/EmptyState';
 import { ErrorState } from '@/components/ErrorState';
@@ -11,14 +12,9 @@ import {
 } from '@/features/countries/selectors';
 import { searchCountries } from '@/features/countries/thunks';
 
-export interface CountryGridContainerProps {
-  onCountryClick?: (code: string) => void;
-}
-
-export function CountryGridContainer({
-  onCountryClick,
-}: CountryGridContainerProps) {
+export function CountryGridContainer() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const countries = useAppSelector(selectSortedCountries);
   const status = useAppSelector(selectCountriesStatus);
   const error = useAppSelector(selectCountriesError);
@@ -29,6 +25,10 @@ export function CountryGridContainer({
       return;
     }
     void dispatch(searchCountries(lastSearch));
+  };
+
+  const handleCountryClick = (code: string) => {
+    void navigate(`/country/${code}`);
   };
 
   if (status === 'loading') {
@@ -49,6 +49,6 @@ export function CountryGridContainer({
   }
 
   return (
-    <CountryGrid countries={countries} onCountryClick={onCountryClick} />
+    <CountryGrid countries={countries} onCountryClick={handleCountryClick} />
   );
 }
