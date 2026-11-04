@@ -1,11 +1,18 @@
 import type { RootState } from '@/app/store';
-import type { CountriesState } from './countriesSlice';
+import { initialCountriesState, type CountriesState } from './countriesSlice';
 import type { Country } from './types';
 import {
+  selectCountriesError,
   selectCountriesItems,
+  selectCountriesStatus,
+  selectDetails,
+  selectHasSearched,
+  selectLastSearch,
+  selectRelatedItems,
   selectSearchType,
   selectSortBy,
   selectSortedCountries,
+  selectSortedRelatedCountries,
 } from './selectors';
 
 function createCountry(
@@ -28,11 +35,7 @@ function createState(
 ): RootState {
   return {
     countries: {
-      items: [],
-      status: 'idle',
-      error: null,
-      searchType: 'name',
-      sortBy: 'population',
+      ...initialCountriesState,
       ...countriesOverrides,
     },
   };
@@ -63,11 +66,24 @@ describe('countries selectors', () => {
       items: [alpha],
       searchType: 'region',
       sortBy: 'area',
+      status: 'succeeded',
+      error: null,
+      hasSearched: true,
+      lastSearch: { query: 'Europe', searchType: 'region' },
     });
 
     expect(selectCountriesItems(state)).toEqual([alpha]);
     expect(selectSearchType(state)).toBe('region');
     expect(selectSortBy(state)).toBe('area');
+    expect(selectCountriesStatus(state)).toBe('succeeded');
+    expect(selectCountriesError(state)).toBeNull();
+    expect(selectHasSearched(state)).toBe(true);
+    expect(selectLastSearch(state)).toEqual({
+      query: 'Europe',
+      searchType: 'region',
+    });
+    expect(selectDetails(state)).toEqual(initialCountriesState.details);
+    expect(selectRelatedItems(state)).toEqual([]);
   });
 
   it('sorts by population descending', () => {
@@ -93,6 +109,23 @@ describe('countries selectors', () => {
       'GAM',
       'ALP',
       'BET',
+    ]);
+  });
+
+  it('sorts related countries by the active sort key', () => {
+    const state = createState({
+      sortBy: 'population',
+      related: {
+        items: [alpha, beta, gamma],
+        status: 'succeeded',
+        error: null,
+      },
+    });
+
+    expect(selectSortedRelatedCountries(state).map((c) => c.cca3)).toEqual([
+      'BET',
+      'GAM',
+      'ALP',
     ]);
   });
 
