@@ -1,0 +1,98 @@
+---
+description: Project rules for the Countries Catalog (React university project)
+alwaysApply: true
+---
+
+# Project: Countries Catalog
+
+University educational project. A catalog web app built with React that lets users
+search countries, sort results, and open a country details page.
+Data source: REST Countries API v3.1 (https://restcountries.com), free, no API key.
+
+## Stack (do not substitute without asking)
+- Vite + React + TypeScript (strict mode)
+- Redux Toolkit (createSlice, createAsyncThunk) + react-redux
+- React Router (data fetching goes through Redux, not through router loaders)
+- styled-components for styling (no CSS modules, no UI kits)
+- Unit tests: Jest + React Testing Library (+ @testing-library/jest-dom, user-event)
+- E2E tests: Cypress
+- ESLint + Prettier
+
+## UI (from the assignment's design, adapted to countries)
+Two pages, English interface.
+1. Search page: header with logo, title, text input, "Search by" toggle (Name / Region),
+   Search button. Below: results bar ("N countries found") and "Sort by" toggle
+   (Population / Area). Then a grid of country cards (flag, name, population, region).
+   Footer with logo.
+2. Country page: header with logo, big flag, name, region + subregion, capital, population,
+   area, languages, currencies. Below: "More countries in the same region" (grid of cards).
+   Footer.
+
+## Architecture rules
+- 100% decomposition: every visual block is its own component. No component renders
+  more than one logical block of UI. Prefer small components.
+- Smart/dumb split:
+  - dumb (presentational) components live in `src/components/`; they get data and
+    callbacks via props only, never touch Redux, router hooks, or fetch.
+  - smart (container) components live in `src/containers/`; they connect to Redux
+    (useAppSelector / useAppDispatch) and router hooks, and pass props to dumb components.
+  - pages live in `src/pages/` and only compose containers.
+- Wrap the app in an `ErrorBoundary` class component (src/components/ErrorBoundary) that
+  catches render errors and shows a friendly fallback. Add a render-error test for it.
+- Folder layout:
+  src/
+    api/            REST Countries client + response types
+    app/            store.ts, typed hooks, router setup
+    features/countries/   slice, thunks (actions), selectors, types
+    components/     dumb components (each in its own folder with test + styles)
+    containers/     smart components
+    pages/
+    styles/         theme, global styles
+    utils/
+    test/           test utils, mocks, setupTests
+- Data fetching only inside Redux async thunks (actions). Components never call fetch directly.
+- Sorting is done client-side in memoized selectors (the API has no sorting).
+- Typed everything: no `any`; API responses have explicit TypeScript interfaces.
+- Named exports for components, one component per file, file name = component name.
+
+## REST Countries API notes
+- Base URL comes from env variable `VITE_API_BASE_URL` (https://restcountries.com/v3.1).
+- Search by name: `/name/{name}`; search by region: `/region/{region}`;
+  details: `/alpha/{cca3}`.
+- `/all` requires a `fields` query param, and a request may include at most 10 fields.
+  Always use `?fields=` on list requests (name, flags, cca3, region, population, area, capital).
+- Details request may use `fields` with at most 10 fields
+  (name, flags, cca3, region, subregion, capital, population, area, languages, currencies).
+- A 404 from name/region search means "no results": treat it as an empty list, not as an error.
+- Do not invent fields; verify against the API response.
+
+## Routing
+- `/` : empty state, "0 countries found", no request is made.
+- `/search/:query` : new search redirects here (URL-encoded query). Opening this URL
+  directly must run the search and show results.
+- `/country/:code` : country details page (cca3 code); clicking a card navigates here.
+- `*` : 404 page; invalid URLs redirect/render here.
+- Switching search type (Name/Region) or sort type must NOT change the route.
+- Search type defaults to Name when the page is opened directly via URL.
+
+## Environments
+- `.env.development` and `.env.production` with `VITE_` variables; commit `.env.example` only,
+  never real secrets. Dev server for development; optimized production build
+  (`npm run build`, `npm run preview`).
+
+## Testing
+- Coverage target: > 60% overall (aim higher), measured with Jest coverage (`npm run test:coverage`).
+- Use snapshot tests for dumb components.
+- Unit tests for slice reducers, thunks (mock fetch), and selectors.
+- At least 5 Cypress e2e tests (search, sort, open details, 404, direct URL to /search/:query).
+- Tests live next to the code (`Component.test.tsx`).
+
+## Git workflow
+- GitFlow: `main`, `develop`, `feature/task-N-short-name`. Never commit to `main` directly.
+- Conventional commits (feat:, fix:, test:, chore:, refactor:, docs:).
+
+## Working style
+- Work on one assignment task at a time; do not implement later tasks early.
+- After each task: the app builds, lint passes, tests pass.
+- If something is unclear or data is missing, ask instead of inventing it.
+- Keep a short README section describing how to run, test, and build.
