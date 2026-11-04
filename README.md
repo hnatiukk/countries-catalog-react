@@ -10,6 +10,7 @@ countries, sort results, and open a country details page. Data comes from the
 - Redux Toolkit + react-redux
 - styled-components
 - Jest + React Testing Library
+- Cypress (e2e)
 - ESLint + Prettier
 
 ## Prerequisites
@@ -53,8 +54,43 @@ All `import.meta.env` access goes through `src/utils/config.ts`.
 | `npm run typecheck` | TypeScript project references check (`tsc -b --noEmit`) |
 | `npm test` | Run unit tests once |
 | `npm run test:watch` | Run unit tests in watch mode |
-| `npm run test:coverage` | Run unit tests with a coverage report |
-| `npm run test:coverage:check` | Coverage report plus a global 60% threshold |
+| `npm run test:coverage` | Unit tests with coverage (enforces global 60% threshold) |
+| `npm run test:coverage:check` | Alias of `test:coverage` |
+| `npm run e2e` | Start the dev server and run Cypress headless |
+| `npm run e2e:open` | Open the Cypress interactive runner |
+
+## Testing
+
+### Unit and integration (Jest)
+
+```bash
+npm test
+npm run test:coverage
+```
+
+`test:coverage` fails if global statements, branches, functions, or lines fall
+below **60%**. Snapshot tests for presentational components use
+`jest-styled-components` so CSS rules appear in snapshots instead of hashed
+class names.
+
+Update snapshots after intentional UI changes:
+
+```bash
+npx jest -u
+# or
+npm test -- -u
+```
+
+### End-to-end (Cypress)
+
+```bash
+npm run e2e        # headless; starts Vite, runs specs, stops the server
+npm run e2e:open   # interactive (start `npm run dev` separately if needed)
+```
+
+E2E expectations derived from mock data live in
+`cypress/support/mockExpectations.ts` so Task 5 can swap them for
+`cy.intercept` fixtures.
 
 ## Project structure
 

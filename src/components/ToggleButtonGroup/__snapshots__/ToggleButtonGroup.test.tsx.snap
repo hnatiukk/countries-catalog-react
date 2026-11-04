@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ToggleButtonGroup matches snapshot with Name active (accent) 1`] = `
+.c0 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.c1 {
+  color: inherit;
+  font-size: 0.875rem;
+  margin-right: 4px;
+}
+
+.c2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.c3 {
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  color: inherit;
+  transition: color 0.15s ease,font-weight 0.15s ease,border-color 0.15s ease;
+  color: #F65261;
+  font-weight: 700;
+  opacity: 1;
+}
+
+.c3:hover {
+  color: #F65261;
+}
+
+.c3:focus-visible {
+  outline: 2px solid #F65261;
+  outline-offset: 2px;
+}
+
+.c4 {
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  color: inherit;
+  transition: color 0.15s ease,font-weight 0.15s ease,border-color 0.15s ease;
+  color: inherit;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.c4:hover {
+  color: #F65261;
+}
+
+.c4:focus-visible {
+  outline: 2px solid #F65261;
+  outline-offset: 2px;
+}
+
+<div
+  aria-label="Search by"
+  class="c0"
+  role="group"
+>
+  <span
+    class="c1"
+  >
+    Search by
+  </span>
+  <div
+    class="c2"
+  >
+    <button
+      aria-pressed="true"
+      class="c3"
+      type="button"
+    >
+      Name
+    </button>
+    <button
+      aria-pressed="false"
+      class="c4"
+      type="button"
+    >
+      Region
+    </button>
+  </div>
+</div>
+`;
+
+exports[`ToggleButtonGroup matches snapshot with Region active (underline) 1`] = `
+.c0 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.c1 {
+  color: inherit;
+  font-size: 0.875rem;
+  margin-right: 4px;
+}
+
+.c2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.c3 {
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  color: inherit;
+  transition: color 0.15s ease,font-weight 0.15s ease,border-color 0.15s ease;
+  font-weight: 400;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding-bottom: 2px;
+}
+
+.c3:hover {
+  color: #F65261;
+}
+
+.c3:focus-visible {
+  outline: 2px solid #F65261;
+  outline-offset: 2px;
+}
+
+.c4 {
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  color: inherit;
+  transition: color 0.15s ease,font-weight 0.15s ease,border-color 0.15s ease;
+  font-weight: 700;
+  border-bottom: 2px solid #F65261;
+  border-radius: 0;
+  padding-bottom: 2px;
+}
+
+.c4:hover {
+  color: #F65261;
+}
+
+.c4:focus-visible {
+  outline: 2px solid #F65261;
+  outline-offset: 2px;
+}
+
+<div
+  aria-label="Search by"
+  class="c0"
+  role="group"
+>
+  <span
+    class="c1"
+  >
+    Search by
+  </span>
+  <div
+    class="c2"
+  >
+    <button
+      aria-pressed="false"
+      class="c3"
+      type="button"
+    >
+      Name
+    </button>
+    <button
+      aria-pressed="true"
+      class="c4"
+      type="button"
+    >
+      Region
+    </button>
+  </div>
+</div>
+`;

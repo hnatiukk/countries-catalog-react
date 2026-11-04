@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Footer matches snapshot 1`] = `
+.c2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #F65261;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  line-height: 1;
+}
+
+.c0 {
+  margin-top: auto;
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+
+.c1 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+}
+
+<footer
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <span
+      class="c2"
+    >
+      countriescatalog
+    </span>
+  </div>
+</footer>
+`;

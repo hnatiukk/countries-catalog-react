@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CountryCard matches snapshot 1`] = `
+.c1 {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.c0 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  border: none;
+  padding: 0;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  transition: transform 0.15s ease,box-shadow 0.15s ease;
+}
+
+.c0:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.c0:focus-visible {
+  outline: 2px solid #F65261;
+  outline-offset: 2px;
+}
+
+.c2 {
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.c3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.c4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333333;
+}
+
+.c5 {
+  font-size: 0.875rem;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.c6 {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #777777;
+}
+
+<button
+  aria-label="Ukraine"
+  class="c0"
+  type="button"
+>
+  <img
+    alt="Flag of Ukraine"
+    class="c1"
+    loading="lazy"
+    src="https://flagcdn.com/w320/ua.png"
+  />
+  <div
+    class="c2"
+  >
+    <div
+      class="c3"
+    >
+      <h3
+        class="c4"
+      >
+        Ukraine
+      </h3>
+      <span
+        class="c5"
+      >
+        44,134,693
+      </span>
+    </div>
+    <p
+      class="c6"
+    >
+      Europe
+    </p>
+  </div>
+</button>
+`;
