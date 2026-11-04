@@ -1,10 +1,12 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/Button';
 import { Header } from '@/components/Header';
 import { SearchInput } from '@/components/SearchInput';
 import { ToggleButtonGroup } from '@/components/ToggleButtonGroup';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import {
+  clearSearch,
   setSearchType,
   type SearchType,
 } from '@/features/countries/countriesSlice';
@@ -21,14 +23,49 @@ const SEARCH_TYPE_OPTIONS = [
   { value: 'region' as const, label: 'Region' },
 ];
 
+function decodeRouteQuery(queryParam: string | undefined): string | null {
+  if (queryParam === undefined) {
+    return null;
+  }
+
+  try {
+    return decodeURIComponent(queryParam);
+  } catch {
+    return queryParam;
+  }
+}
+
 export function SearchHeaderContainer() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { query: queryParam } = useParams<{ query?: string }>();
   const searchType = useAppSelector(selectSearchType);
-  const [query, setQuery] = useState('');
+  const routeQuery = decodeRouteQuery(queryParam);
+  const [query, setQuery] = useState(routeQuery ?? '');
   const searchRequestRef = useRef<{ abort: () => void } | null>(null);
 
   const trimmedQuery = query.trim();
   const canSearch = trimmedQuery.length > 0;
+
+  useEffect(() => {
+    if (routeQuery === null) {
+      searchRequestRef.current?.abort();
+      searchRequestRef.current = null;
+      dispatch(clearSearch());
+      return;
+    }
+
+    searchRequestRef.current?.abort();
+    searchRequestRef.current = dispatch(
+      searchCountries({ query: routeQuery, searchType }),
+    );
+
+    return () => {
+      searchRequestRef.current?.abort();
+    };
+    // searchType intentionally omitted: type changes must not re-fetch until submit
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- route-driven search only
+  }, [routeQuery, dispatch]);
 
   const handleSearchTypeChange = (value: SearchType) => {
     dispatch(setSearchType(value));
@@ -38,6 +75,11 @@ export function SearchHeaderContainer() {
     event.preventDefault();
 
     if (!canSearch) {
+      return;
+    }
+
+    if (routeQuery !== trimmedQuery) {
+      void navigate(`/search/${encodeURIComponent(trimmedQuery)}`);
       return;
     }
 

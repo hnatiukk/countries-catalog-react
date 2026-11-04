@@ -4,7 +4,7 @@ import { SearchPage } from './SearchPage';
 
 describe('SearchPage', () => {
   it('renders key landmarks', () => {
-    renderWithProviders(<SearchPage onCountryClick={() => {}} />);
+    renderWithProviders(<SearchPage />);
 
     expect(
       screen.getByRole('heading', { name: 'Find your country' }),

@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`NotFoundView matches snapshot 1`] = `
+.c3 {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 32px;
+  border-radius: 4px;
+  background-color: #F65261;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background-color 0.15s ease;
+}
+
+.c3:hover {
+  background-color: #e04452;
+}
+
+.c3:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.c3:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.c0 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 240px;
+  text-align: center;
+}
+
+.c1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #333333;
+}
+
+.c2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #777777;
+}
+
+<div
+  class="c0"
+  role="status"
+>
+  <h1
+    class="c1"
+  >
+    Page not found
+  </h1>
+  <p
+    class="c2"
+  >
+    The page you are looking for does not exist.
+  </p>
+  <button
+    class="c3"
+    type="button"
+  >
+    Go to search
+  </button>
+</div>
+`;

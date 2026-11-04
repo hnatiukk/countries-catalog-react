@@ -1,17 +1,16 @@
-import { PageShell } from '@/components/PageShell';
+import { useParams } from 'react-router-dom';
 import { CountryGridContainer } from '@/containers/CountryGridContainer';
 import { ResultsBarContainer } from '@/containers/ResultsBarContainer';
 import { SearchHeaderContainer } from '@/containers/SearchHeaderContainer';
+import { PageShell } from '@/components/PageShell';
 
-export interface SearchPageProps {
-  onCountryClick: (code: string) => void;
-}
+export function SearchPage() {
+  const { query } = useParams<{ query?: string }>();
 
-export function SearchPage({ onCountryClick }: SearchPageProps) {
   return (
-    <PageShell header={<SearchHeaderContainer />}>
+    <PageShell header={<SearchHeaderContainer key={query ?? ''} />}>
       <ResultsBarContainer />
-      <CountryGridContainer onCountryClick={onCountryClick} />
+      <CountryGridContainer />
     </PageShell>
   );
 }

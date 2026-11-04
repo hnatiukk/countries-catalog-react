@@ -79,6 +79,13 @@ const countriesSlice = createSlice({
       state.details = initialDetails;
       state.related = initialRelated;
     },
+    clearSearch(state) {
+      state.items = [];
+      state.status = 'idle';
+      state.error = null;
+      state.hasSearched = false;
+      state.lastSearch = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -151,6 +158,6 @@ const countriesSlice = createSlice({
   },
 });
 
-export const { setSearchType, setSortBy, clearDetails } =
+export const { setSearchType, setSortBy, clearDetails, clearSearch } =
   countriesSlice.actions;
 export const countriesReducer = countriesSlice.reducer;

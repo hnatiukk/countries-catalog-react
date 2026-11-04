@@ -1,3 +1,4 @@
+import { Route, Routes } from 'react-router-dom';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as countriesApi from '@/api/countriesApi';
@@ -13,6 +14,16 @@ jest.mock('@/api/countriesApi');
 
 const mockedApi = countriesApi as jest.Mocked<typeof countriesApi>;
 
+function renderSearchHeader(initialEntries: string[] = ['/']) {
+  return renderWithProviders(
+    <Routes>
+      <Route path="/" element={<SearchHeaderContainer />} />
+      <Route path="/search/:query" element={<SearchHeaderContainer />} />
+    </Routes>,
+    { initialEntries },
+  );
+}
+
 describe('SearchHeaderContainer', () => {
   afterEach(() => {
     jest.resetAllMocks();
@@ -21,7 +32,7 @@ describe('SearchHeaderContainer', () => {
   it('updates the query as the user types', async () => {
     const user = userEvent.setup();
 
-    renderWithProviders(<SearchHeaderContainer />);
+    renderSearchHeader();
 
     const input = screen.getByRole('searchbox', { name: 'Search countries' });
     await user.type(input, 'Ukraine');
@@ -31,7 +42,7 @@ describe('SearchHeaderContainer', () => {
 
   it('toggles search type from Name to Region', async () => {
     const user = userEvent.setup();
-    const { store } = renderWithProviders(<SearchHeaderContainer />);
+    const { store } = renderSearchHeader();
 
     await user.click(screen.getByRole('button', { name: 'Region' }));
 
@@ -43,7 +54,7 @@ describe('SearchHeaderContainer', () => {
   });
 
   it('disables Search for an empty query', () => {
-    renderWithProviders(<SearchHeaderContainer />);
+    renderSearchHeader();
 
     expect(screen.getByRole('button', { name: 'Search' })).toBeDisabled();
   });
@@ -51,7 +62,7 @@ describe('SearchHeaderContainer', () => {
   it('searches by name on submit', async () => {
     const user = userEvent.setup();
     mockedApi.searchCountriesByName.mockResolvedValue([ukraine]);
-    const { store } = renderWithProviders(<SearchHeaderContainer />);
+    const { store } = renderSearchHeader();
 
     await user.type(
       screen.getByRole('searchbox', { name: 'Search countries' }),
@@ -77,7 +88,7 @@ describe('SearchHeaderContainer', () => {
       germany,
       france,
     ]);
-    const { store } = renderWithProviders(<SearchHeaderContainer />);
+    const { store } = renderSearchHeader();
 
     await user.click(screen.getByRole('button', { name: 'Region' }));
     await user.type(
@@ -99,7 +110,7 @@ describe('SearchHeaderContainer', () => {
 
   it('does nothing when submitting whitespace-only input', async () => {
     const user = userEvent.setup();
-    const { store } = renderWithProviders(<SearchHeaderContainer />);
+    const { store } = renderSearchHeader();
 
     await user.type(
       screen.getByRole('searchbox', { name: 'Search countries' }),
@@ -111,5 +122,21 @@ describe('SearchHeaderContainer', () => {
 
     expect(mockedApi.searchCountriesByName).not.toHaveBeenCalled();
     expect(store.getState().countries.hasSearched).toBe(false);
+  });
+
+  it('prefills the input from the route query', async () => {
+    mockedApi.searchCountriesByName.mockResolvedValue([ukraine]);
+
+    renderSearchHeader(['/search/Ukraine']);
+
+    expect(screen.getByRole('searchbox', { name: 'Search countries' })).toHaveValue(
+      'Ukraine',
+    );
+    await waitFor(() => {
+      expect(mockedApi.searchCountriesByName).toHaveBeenCalledWith(
+        'Ukraine',
+        expect.anything(),
+      );
+    });
   });
 });

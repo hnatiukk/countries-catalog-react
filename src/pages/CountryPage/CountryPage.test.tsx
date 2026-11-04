@@ -1,3 +1,4 @@
+import { Route, Routes } from 'react-router-dom';
 import { screen } from '@testing-library/react';
 import * as countriesApi from '@/api/countriesApi';
 import { france, germany, ukraine } from '@/test/countryFixtures';
@@ -20,11 +21,10 @@ describe('CountryPage', () => {
 
   it('renders country landmarks for the given code', async () => {
     renderWithProviders(
-      <CountryPage
-        countryCode="UKR"
-        onBack={() => undefined}
-        onCountryClick={() => undefined}
-      />,
+      <Routes>
+        <Route path="/country/:code" element={<CountryPage />} />
+      </Routes>,
+      { initialEntries: ['/country/UKR'] },
     );
 
     expect(
