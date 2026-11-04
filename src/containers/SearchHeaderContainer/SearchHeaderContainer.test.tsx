@@ -1,9 +1,23 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as countriesApi from '@/api/countriesApi';
+import {
+  france,
+  germany,
+  ukraine,
+} from '@/test/countryFixtures';
 import { renderWithProviders } from '@/test/test-utils';
 import { SearchHeaderContainer } from './SearchHeaderContainer';
 
+jest.mock('@/api/countriesApi');
+
+const mockedApi = countriesApi as jest.Mocked<typeof countriesApi>;
+
 describe('SearchHeaderContainer', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('updates the query as the user types', async () => {
     const user = userEvent.setup();
 
@@ -28,8 +42,15 @@ describe('SearchHeaderContainer', () => {
     );
   });
 
-  it('filters by name on submit', async () => {
+  it('disables Search for an empty query', () => {
+    renderWithProviders(<SearchHeaderContainer />);
+
+    expect(screen.getByRole('button', { name: 'Search' })).toBeDisabled();
+  });
+
+  it('searches by name on submit', async () => {
     const user = userEvent.setup();
+    mockedApi.searchCountriesByName.mockResolvedValue([ukraine]);
     const { store } = renderWithProviders(<SearchHeaderContainer />);
 
     await user.type(
@@ -38,13 +59,24 @@ describe('SearchHeaderContainer', () => {
     );
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
-    expect(store.getState().countries.items.map((c) => c.cca3)).toEqual([
-      'UKR',
-    ]);
+    await waitFor(() => {
+      expect(store.getState().countries.items.map((c) => c.cca3)).toEqual([
+        'UKR',
+      ]);
+    });
+    expect(mockedApi.searchCountriesByName).toHaveBeenCalledWith(
+      'Ukr',
+      expect.anything(),
+    );
   });
 
-  it('filters by exact region on submit', async () => {
+  it('searches by region on submit', async () => {
     const user = userEvent.setup();
+    mockedApi.searchCountriesByRegion.mockResolvedValue([
+      ukraine,
+      germany,
+      france,
+    ]);
     const { store } = renderWithProviders(<SearchHeaderContainer />);
 
     await user.click(screen.getByRole('button', { name: 'Region' }));
@@ -54,27 +86,30 @@ describe('SearchHeaderContainer', () => {
     );
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
-    expect(store.getState().countries.items.map((c) => c.cca3).sort()).toEqual(
-      ['DEU', 'FRA', 'UKR'],
+    await waitFor(() => {
+      expect(
+        store.getState().countries.items.map((c) => c.cca3).sort(),
+      ).toEqual(['DEU', 'FRA', 'UKR']);
+    });
+    expect(mockedApi.searchCountriesByRegion).toHaveBeenCalledWith(
+      'Europe',
+      expect.anything(),
     );
   });
 
-  it('clears results when submitting an empty query', async () => {
+  it('does nothing when submitting whitespace-only input', async () => {
     const user = userEvent.setup();
-    const { store } = renderWithProviders(<SearchHeaderContainer />, {
-      preloadedState: {
-        countries: {
-          items: [],
-          status: 'succeeded',
-          error: null,
-          searchType: 'name',
-          sortBy: 'population',
-        },
-      },
-    });
+    const { store } = renderWithProviders(<SearchHeaderContainer />);
+
+    await user.type(
+      screen.getByRole('searchbox', { name: 'Search countries' }),
+      '   ',
+    );
+    expect(screen.getByRole('button', { name: 'Search' })).toBeDisabled();
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
-    expect(store.getState().countries.items).toEqual([]);
+    expect(mockedApi.searchCountriesByName).not.toHaveBeenCalled();
+    expect(store.getState().countries.hasSearched).toBe(false);
   });
 });

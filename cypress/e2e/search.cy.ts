@@ -1,16 +1,26 @@
 import {
-  AMERICAS_REGION,
-  NAME_QUERY,
-  NO_MATCH_QUERY,
-  REGION_QUERY,
-  americasNamesByArea,
-  americasNamesByPopulation,
-  detailCountry,
-  nameSearchCount,
-  nameSearchResults,
-  regionSearchCount,
-  regionSearchResults,
-} from '../support/mockExpectations';
+  stubCountryDetails,
+  stubNameSearch,
+  stubRegionSearch,
+} from '../support/apiStubs';
+
+const AMERICAS_BY_POPULATION = [
+  'Argentina',
+  'Bahamas',
+  'Barbados',
+  'Aruba',
+  'Antigua and Barbuda',
+  'Anguilla',
+];
+
+const AMERICAS_BY_AREA = [
+  'Argentina',
+  'Bahamas',
+  'Antigua and Barbuda',
+  'Barbados',
+  'Aruba',
+  'Anguilla',
+];
 
 function searchByName(query: string) {
   cy.findByRole('button', { name: 'Name' }).click();
@@ -48,39 +58,38 @@ describe('Countries catalog e2e', () => {
     cy.findByRole('status').should('contain.text', 'No results');
   });
 
-  it('filters the grid by name and updates the count', () => {
+  it('searches by name and updates the count', () => {
+    stubNameSearch('search-name-ukraine.json');
     cy.visit('/');
-    searchByName(NAME_QUERY);
+    searchByName('Ukraine');
 
-    cy.findByText(`${nameSearchCount} countries found`).should('be.visible');
-    nameSearchResults.forEach((country) => {
-      cy.findByRole('button', { name: country.name.common }).should(
-        'be.visible',
-      );
-    });
+    cy.wait('@nameSearch');
+    cy.findByText('1 countries found').should('be.visible');
+    cy.findByRole('button', { name: 'Ukraine' }).should('be.visible');
   });
 
-  it('filters the grid by region and updates the count', () => {
+  it('searches by region and updates the count', () => {
+    stubRegionSearch('search-region-europe.json');
     cy.visit('/');
-    searchByRegion(REGION_QUERY);
+    searchByRegion('Europe');
 
-    cy.findByText(`${regionSearchCount} countries found`).should('be.visible');
-    regionSearchResults.forEach((country) => {
-      cy.findByRole('button', { name: country.name.common }).should(
-        'be.visible',
-      );
-    });
+    cy.wait('@regionSearch');
+    cy.findByText('6 countries found').should('be.visible');
+    cy.findByRole('button', { name: 'Albania' }).should('be.visible');
+    cy.findByRole('button', { name: 'Belgium' }).should('be.visible');
   });
 
   it('reorders cards when sorting by Area instead of Population', () => {
+    stubRegionSearch('search-region-americas.json');
     cy.visit('/');
-    searchByRegion(AMERICAS_REGION);
+    searchByRegion('Americas');
+    cy.wait('@regionSearch');
 
     cy.findByRole('region', { name: 'Countries' })
       .findAllByRole('button')
       .then((buttons) => {
         const names = [...buttons].map((el) => el.getAttribute('aria-label'));
-        expect(names).to.deep.equal(americasNamesByPopulation);
+        expect(names).to.deep.equal(AMERICAS_BY_POPULATION);
       });
 
     cy.findByRole('button', { name: 'Area' }).click();
@@ -89,36 +98,37 @@ describe('Countries catalog e2e', () => {
       .findAllByRole('button')
       .then((buttons) => {
         const names = [...buttons].map((el) => el.getAttribute('aria-label'));
-        expect(names).to.deep.equal(americasNamesByArea);
+        expect(names).to.deep.equal(AMERICAS_BY_AREA);
       });
   });
 
   it('shows empty state when the search has no matches', () => {
+    stubNameSearch('empty.json');
     cy.visit('/');
-    searchByName(NO_MATCH_QUERY);
+    searchByName('zzzznotacountry999');
 
+    cy.wait('@nameSearch');
     cy.findByText('0 countries found').should('be.visible');
     cy.findByRole('status').should('contain.text', 'No results');
   });
 
   it('opens country details from a card and returns via back', () => {
+    stubNameSearch('search-name-ukraine.json');
+    stubCountryDetails('country-ukr.json');
+    stubRegionSearch('related-europe.json');
+
     cy.visit('/');
-    searchByName(detailCountry.name.common);
+    searchByName('Ukraine');
+    cy.wait('@nameSearch');
 
-    cy.findByRole('button', { name: detailCountry.name.common }).click();
+    cy.findByRole('button', { name: 'Ukraine' }).click();
+    cy.wait('@countryDetails');
+    cy.wait('@regionSearch');
 
-    cy.findByRole('heading', { name: detailCountry.name.common }).should(
-      'be.visible',
-    );
-    cy.findByText(
-      `${detailCountry.region} · ${detailCountry.subregion}`,
-    ).should('be.visible');
-    cy.findByText(detailCountry.population.toLocaleString('en-US')).should(
-      'be.visible',
-    );
-    cy.findByText(
-      `${detailCountry.area.toLocaleString('en-US')} km²`,
-    ).should('be.visible');
+    cy.findByRole('heading', { name: 'Ukraine' }).should('be.visible');
+    cy.findByText('Europe · Eastern Europe').should('be.visible');
+    cy.findByText('28,700,000').should('be.visible');
+    cy.findByText('603,500 km²').should('be.visible');
     cy.findByText(/More countries in the same region/).should('be.visible');
 
     cy.findByRole('button', { name: 'Back to search' }).click();
@@ -126,5 +136,59 @@ describe('Countries catalog e2e', () => {
     cy.findByRole('heading', { name: 'Find your country' }).should(
       'be.visible',
     );
+  });
+
+  it('shows a loading state while a search is in flight', () => {
+    stubNameSearch('search-name-ukraine.json', { delay: 500 });
+    cy.visit('/');
+    searchByName('Ukraine');
+
+    cy.findByRole('status').should('contain.text', 'Loading countries…');
+    cy.wait('@nameSearch');
+    cy.findByRole('button', { name: 'Ukraine' }).should('be.visible');
+  });
+
+  it('shows an API error with retry for 500 and 429 responses', () => {
+    cy.intercept('GET', '/api/countries/v5?*q=*', {
+      statusCode: 500,
+      fixture: 'error-500.json',
+    }).as('nameSearchFail');
+
+    cy.visit('/');
+    searchByName('Ukraine');
+    cy.wait('@nameSearchFail');
+
+    cy.findByRole('alert').should('be.visible');
+    cy.findByRole('button', { name: 'Try again' }).should('be.visible');
+
+    cy.intercept('GET', '/api/countries/v5?*q=*', {
+      fixture: 'search-name-ukraine.json',
+    }).as('nameSearchOk');
+
+    cy.findByRole('button', { name: 'Try again' }).click();
+    cy.wait('@nameSearchOk');
+    cy.findByRole('button', { name: 'Ukraine' }).should('be.visible');
+
+    cy.intercept('GET', '/api/countries/v5?*q=*', {
+      statusCode: 429,
+      fixture: 'error-429.json',
+    }).as('nameSearchRateLimited');
+
+    searchByName('Ukraine');
+    cy.wait('@nameSearchRateLimited');
+    cy.findByRole('alert').should(
+      'contain.text',
+      'Too many requests. Please wait a moment and try again.',
+    );
+  });
+
+  it('searches by region Americas and shows results', () => {
+    stubRegionSearch('search-region-americas.json');
+    cy.visit('/');
+    searchByRegion('Americas');
+    cy.wait('@regionSearch');
+
+    cy.findByText('6 countries found').should('be.visible');
+    cy.findByRole('button', { name: 'Argentina' }).should('be.visible');
   });
 });

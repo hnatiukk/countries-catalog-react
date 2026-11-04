@@ -1,16 +1,15 @@
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import { Button } from '@/components/Button';
 import { Header } from '@/components/Header';
 import { SearchInput } from '@/components/SearchInput';
 import { ToggleButtonGroup } from '@/components/ToggleButtonGroup';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import {
-  setItems,
   setSearchType,
   type SearchType,
 } from '@/features/countries/countriesSlice';
-import { MOCK_COUNTRIES } from '@/features/countries/mockData';
 import { selectSearchType } from '@/features/countries/selectors';
+import { searchCountries } from '@/features/countries/thunks';
 import {
   ControlsRow,
   Heading,
@@ -26,6 +25,10 @@ export function SearchHeaderContainer() {
   const dispatch = useAppDispatch();
   const searchType = useAppSelector(selectSearchType);
   const [query, setQuery] = useState('');
+  const searchRequestRef = useRef<{ abort: () => void } | null>(null);
+
+  const trimmedQuery = query.trim();
+  const canSearch = trimmedQuery.length > 0;
 
   const handleSearchTypeChange = (value: SearchType) => {
     dispatch(setSearchType(value));
@@ -34,20 +37,14 @@ export function SearchHeaderContainer() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // TODO(Task 5): replace with API request
-    const normalized = query.trim().toLowerCase();
-    const results =
-      normalized.length === 0
-        ? []
-        : MOCK_COUNTRIES.filter((country) => {
-            if (searchType === 'name') {
-              return country.name.common.toLowerCase().includes(normalized);
-            }
+    if (!canSearch) {
+      return;
+    }
 
-            return country.region.toLowerCase() === normalized;
-          });
-
-    dispatch(setItems(results));
+    searchRequestRef.current?.abort();
+    searchRequestRef.current = dispatch(
+      searchCountries({ query: trimmedQuery, searchType }),
+    );
   };
 
   return (
@@ -68,7 +65,9 @@ export function SearchHeaderContainer() {
             onChange={handleSearchTypeChange}
             variant="accent"
           />
-          <Button type="submit">Search</Button>
+          <Button type="submit" disabled={!canSearch}>
+            Search
+          </Button>
         </ControlsRow>
       </SearchForm>
     </Header>

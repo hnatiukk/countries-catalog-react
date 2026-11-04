@@ -1,3 +1,7 @@
+export type SearchType = 'name' | 'region';
+export type SortBy = 'population' | 'area';
+export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
+
 export interface Country {
   name: {
     common: string;
@@ -19,7 +23,7 @@ export interface CountryCurrency {
   symbol?: string;
 }
 
-/** Compatible with REST Countries API v3.1 detail response shape. */
+/** Domain detail shape used by the UI (mapped from REST Countries v5). */
 export interface CountryDetails extends Country {
   subregion: string;
   capital: string[];

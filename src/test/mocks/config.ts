@@ -1,4 +1,9 @@
 export const config = {
-  apiBaseUrl: 'https://restcountries.com/v3.1',
+  apiBaseUrl: '/api/countries/v5',
+  apiKey: 'test-api-key',
   appEnv: 'test' as const,
 };
+
+export function readConfig() {
+  return config;
+}

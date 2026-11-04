@@ -1,6 +1,11 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MOCK_COUNTRIES } from '@/features/countries/mockData';
+import {
+  countriesState,
+  germany,
+  ukraine,
+  unitedStates,
+} from '@/test/countryFixtures';
 import { renderWithProviders } from '@/test/test-utils';
 import { ResultsBarContainer } from './ResultsBarContainer';
 
@@ -8,13 +13,11 @@ describe('ResultsBarContainer', () => {
   it('shows the count from the store', () => {
     renderWithProviders(<ResultsBarContainer />, {
       preloadedState: {
-        countries: {
-          items: MOCK_COUNTRIES.slice(0, 3),
+        countries: countriesState({
+          items: [ukraine, unitedStates, germany],
           status: 'succeeded',
-          error: null,
-          searchType: 'name',
-          sortBy: 'population',
-        },
+          hasSearched: true,
+        }),
       },
     });
 
