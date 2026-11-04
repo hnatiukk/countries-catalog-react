@@ -6,7 +6,15 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'coverage'] },
+  {
+    ignores: [
+      'dist',
+      'coverage',
+      'cypress/videos',
+      'cypress/screenshots',
+      'cypress/downloads',
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -32,6 +40,21 @@ export default tseslint.config(
       globals: {
         ...globals.jest,
       },
+    },
+  },
+  {
+    files: ['cypress/**/*.{ts,tsx}', 'cypress.config.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        cy: 'readonly',
+        Cypress: 'readonly',
+        expect: 'readonly',
+        assert: 'readonly',
+      },
+    },
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
   eslintConfigPrettier,
