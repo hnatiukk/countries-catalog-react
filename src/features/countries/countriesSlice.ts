@@ -31,8 +31,13 @@ const countriesSlice = createSlice({
     setSortBy(state, action: PayloadAction<SortBy>) {
       state.sortBy = action.payload;
     },
+    setItems(state, action: PayloadAction<Country[]>) {
+      state.items = action.payload;
+      state.status = 'succeeded';
+      state.error = null;
+    },
   },
 });
 
-export const { setSearchType, setSortBy } = countriesSlice.actions;
+export const { setSearchType, setSortBy, setItems } = countriesSlice.actions;
 export const countriesReducer = countriesSlice.reducer;

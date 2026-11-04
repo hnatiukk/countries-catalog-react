@@ -5,11 +5,5 @@ export interface ResultsCountProps {
 }
 
 export function ResultsCount({ count }: ResultsCountProps) {
-  const label = count === 1 ? 'country' : 'countries';
-
-  return (
-    <CountText>
-      {count} {label} found
-    </CountText>
-  );
+  return <CountText>{count} countries found</CountText>;
 }
