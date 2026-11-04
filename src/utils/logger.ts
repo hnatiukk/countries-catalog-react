@@ -1,8 +1,7 @@
 type LogLevel = 'error' | 'warn' | 'info';
 
 function log(level: LogLevel, message: string, details?: unknown): void {
-  // Thin wrapper so call sites stay free of console.*; replaceable later.
-  // eslint-disable-next-line no-console
+  // Thin wrapper so components stay free of console.*; replaceable later.
   const sink = console[level].bind(console);
 
   if (details !== undefined) {
