@@ -8,6 +8,7 @@ countries, sort results, and open a country details page. Data comes from the
 
 - Vite + React + TypeScript (strict mode)
 - Redux Toolkit + react-redux
+- React Router (declarative routes; data fetching stays in Redux)
 - styled-components
 - Jest + React Testing Library
 - Cypress (e2e)
@@ -114,15 +115,29 @@ E2E uses `cy.intercept` with fixtures under `cypress/fixtures/` (same shapes as
 `src/test/fixtures/`). A catch-all intercept fails the run if the live API host
 is contacted.
 
+## Routes
+
+| Path | Page | Behavior |
+| --- | --- | --- |
+| `/` | SearchPage | Empty state (“0 countries found”); no API request |
+| `/search/:query` | SearchPage | Decoded query prefills the input and runs the search (Name by default, or current Redux search type) |
+| `/country/:code` | CountryPage | Loads details by alpha-3 code; unknown code shows the same 404 UI |
+| `*` | NotFoundPage | Unknown URLs; “Go to search” returns to `/` |
+
+Changing search type (Name / Region) or sort (Population / Area) does **not** change the route.
+
+Vite’s default `appType: 'spa'` serves `index.html` for unknown paths in both
+`npm run dev` and `npm run preview`, so client-side routes work on reload.
+
 ## Project structure
 
 ```
 src/
   api/           # REST Countries v5 client, DTOs, mappers
-  app/           # Redux store, typed hooks
+  app/           # Redux store, typed hooks, React Router setup
   features/countries/   # slice, thunks, selectors, domain types
   components/    # dumb/presentational UI (props only; no Redux/router)
-  containers/    # smart components (Redux + wiring)
+  containers/    # smart components (Redux + router hooks)
   pages/         # page composition of containers only
   styles/        # theme + global styles
   utils/         # config, formatting, logger
@@ -131,11 +146,8 @@ src/
 
 **Smart/dumb rule:** components in `src/components/` receive data and callbacks via
 props and never import Redux or React Router. Containers in `src/containers/`
-connect to the store (and later the router) and pass props down. Pages only
-compose containers.
-
-**Temporary until Task 6:** `App.tsx` uses a small `useState` view switch instead of
-React Router (`/`, `/search/:query`, `/country/:code`, 404).
+connect to the store and router hooks and pass props down. Pages only compose
+containers (and may use router hooks when needed).
 
 ## Branching
 
