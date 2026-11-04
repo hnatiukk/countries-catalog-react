@@ -51,12 +51,10 @@ export function SearchHeaderContainer() {
     if (routeQuery === null) {
       searchRequestRef.current?.abort();
       searchRequestRef.current = null;
-      setQuery('');
       dispatch(clearSearch());
       return;
     }
 
-    setQuery(routeQuery);
     searchRequestRef.current?.abort();
     searchRequestRef.current = dispatch(
       searchCountries({ query: routeQuery, searchType }),
