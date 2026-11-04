@@ -1,14 +1,6 @@
-function requireEnv(name: keyof ImportMetaEnv): string {
-  const value = import.meta.env[name];
+import { readConfig, type AppConfig } from './readConfig';
 
-  if (typeof value !== 'string' || value.trim() === '') {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
+export type { AppConfig, AppEnv, EnvSource } from './readConfig';
+export { readConfig } from './readConfig';
 
-  return value;
-}
-
-export const config = {
-  apiBaseUrl: requireEnv('VITE_API_BASE_URL'),
-  appEnv: requireEnv('VITE_APP_ENV') as ImportMetaEnv['VITE_APP_ENV'],
-} as const;
+export const config: AppConfig = readConfig(import.meta.env);

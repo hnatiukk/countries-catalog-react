@@ -1,0 +1,229 @@
+{
+  "data": {
+    "objects": [
+      {
+        "names": {
+          "common": "Anguilla"
+        },
+        "codes": {
+          "alpha_3": "AIA"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 18.22,
+              "lng": -63.05
+            },
+            "name": "The Valley"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Anguilla has a dark blue field. It features the flag of the United Kingdom — the Union Jack — in the canton and a white shield bearing three interlocking orange dolphins above a light blue base, centered in the fly half.",
+          "url_png": "https://flags.restcountries.com/v5/w640/ai.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/ai.svg"
+        },
+        "region": "Americas",
+        "area": {
+          "kilometers": 91,
+          "miles": 35.1
+        },
+        "population": 16010
+      },
+      {
+        "names": {
+          "common": "Antigua and Barbuda"
+        },
+        "codes": {
+          "alpha_3": "ATG"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 17.12,
+              "lng": -61.85
+            },
+            "name": "Saint John's"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Antigua and Barbuda has a red field with an inverted isosceles triangle based on the top edge and spanning the height of the field. This triangle has three horizontal bands of black, light blue and white, with the light blue band half the height of the two other bands. The top half of a golden-yellow sun is situated in the lower two-third of the black band to depict a rising sun.",
+          "url_png": "https://flags.restcountries.com/v5/w640/ag.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/ag.svg"
+        },
+        "region": "Americas",
+        "area": {
+          "kilometers": 442,
+          "miles": 170.7
+        },
+        "population": 106365
+      },
+      {
+        "names": {
+          "common": "Argentina"
+        },
+        "codes": {
+          "alpha_3": "ARG"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": -34.58,
+              "lng": -58.67
+            },
+            "name": "Buenos Aires"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Argentina features three equal horizontal bands of light blue, white and light blue. A brown-edged golden sun is centered in the white band.",
+          "url_png": "https://flags.restcountries.com/v5/w640/ar.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/ar.svg"
+        },
+        "region": "Americas",
+        "area": {
+          "kilometers": 2780400,
+          "miles": 1073518
+        },
+        "population": 46466688
+      },
+      {
+        "names": {
+          "common": "Aruba"
+        },
+        "codes": {
+          "alpha_3": "ABW"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 12.52,
+              "lng": -70.03
+            },
+            "name": "Oranjestad"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Aruba has a light blue field with two thin yellow horizontal bands across its lower half. A white-edged red four-pointed star is situated in the upper hoist-side corner of the field.",
+          "url_png": "https://flags.restcountries.com/v5/w640/aw.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/aw.svg"
+        },
+        "region": "Americas",
+        "area": {
+          "kilometers": 180,
+          "miles": 69.5
+        },
+        "population": 110625
+      },
+      {
+        "names": {
+          "common": "Bahamas"
+        },
+        "codes": {
+          "alpha_3": "BHS"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 25.08,
+              "lng": -77.35
+            },
+            "name": "Nassau"
+          }
+        ],
+        "flag": {
+          "description": "The flag of the Bahamas is composed of three equal horizontal bands of aquamarine, yellow and aquamarine, with a black equilateral triangle superimposed on the hoist side of the field. This triangle has its base on the hoist end and spans about one-third the width of the field.",
+          "url_png": "https://flags.restcountries.com/v5/w640/bs.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/bs.svg"
+        },
+        "region": "Americas",
+        "area": {
+          "kilometers": 13943,
+          "miles": 5383.4
+        },
+        "population": 398165
+      },
+      {
+        "names": {
+          "common": "Barbados"
+        },
+        "codes": {
+          "alpha_3": "BRB"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 13.1,
+              "lng": -59.62
+            },
+            "name": "Bridgetown"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Barbados is composed of three equal vertical bands of ultramarine, gold and ultramarine. The head of a black trident is centered in the gold band.",
+          "url_png": "https://flags.restcountries.com/v5/w640/bb.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/bb.svg"
+        },
+        "region": "Americas",
+        "area": {
+          "kilometers": 430,
+          "miles": 166
+        },
+        "population": 261692
+      }
+    ],
+    "meta": {
+      "total": 56,
+      "count": 6,
+      "limit": 6,
+      "offset": 0,
+      "more": true
+    }
+  }
+}

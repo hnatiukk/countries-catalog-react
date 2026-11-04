@@ -1,0 +1,8 @@
+{
+  "errors": [
+    {
+      "message": "Internal server error.",
+      "code": "serverError"
+    }
+  ]
+}

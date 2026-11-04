@@ -1,0 +1,229 @@
+{
+  "data": {
+    "objects": [
+      {
+        "names": {
+          "common": "Albania"
+        },
+        "codes": {
+          "alpha_3": "ALB"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 41.32,
+              "lng": 19.82
+            },
+            "name": "Tirana"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Albania features a silhouetted double-headed black eagle at the center of a red field.",
+          "url_png": "https://flags.restcountries.com/v5/w640/al.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/al.svg"
+        },
+        "region": "Europe",
+        "area": {
+          "kilometers": 28748,
+          "miles": 11099.7
+        },
+        "population": 2335930
+      },
+      {
+        "names": {
+          "common": "Andorra"
+        },
+        "codes": {
+          "alpha_3": "AND"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 42.5,
+              "lng": 1.52
+            },
+            "name": "Andorra la Vella"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Andorra features three equal vertical bands of blue, yellow and red, with the coat of arms of Andorra centered in the yellow band.",
+          "url_png": "https://flags.restcountries.com/v5/w640/ad.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/ad.svg"
+        },
+        "region": "Europe",
+        "area": {
+          "kilometers": 468,
+          "miles": 180.7
+        },
+        "population": 90105
+      },
+      {
+        "names": {
+          "common": "Austria"
+        },
+        "codes": {
+          "alpha_3": "AUT"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 48.2,
+              "lng": 16.37
+            },
+            "name": "Vienna"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Austria is composed of three equal horizontal bands of red, white and red.",
+          "url_png": "https://flags.restcountries.com/v5/w640/at.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/at.svg"
+        },
+        "region": "Europe",
+        "area": {
+          "kilometers": 83871,
+          "miles": 32382.8
+        },
+        "population": 9217573
+      },
+      {
+        "names": {
+          "common": "Belarus"
+        },
+        "codes": {
+          "alpha_3": "BLR"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 53.9,
+              "lng": 27.57
+            },
+            "name": "Minsk"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Belarus features a vertical band, with a white and red ornamental pattern, spanning about one-ninth the width of the field on the hoist side. Adjoining the vertical band are two horizontal bands of red and green, with the red band twice the height of the green band.",
+          "url_png": "https://flags.restcountries.com/v5/w640/by.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/by.svg"
+        },
+        "region": "Europe",
+        "area": {
+          "kilometers": 207600,
+          "miles": 80154.8
+        },
+        "population": 9056080
+      },
+      {
+        "names": {
+          "common": "Belgium"
+        },
+        "codes": {
+          "alpha_3": "BEL"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 50.83,
+              "lng": 4.33
+            },
+            "name": "Brussels"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Belgium is composed of three equal vertical bands of black, yellow and red.",
+          "url_png": "https://flags.restcountries.com/v5/w640/be.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/be.svg"
+        },
+        "region": "Europe",
+        "area": {
+          "kilometers": 30528,
+          "miles": 11786.9
+        },
+        "population": 11942772
+      },
+      {
+        "names": {
+          "common": "Bosnia and Herzegovina"
+        },
+        "codes": {
+          "alpha_3": "BIH"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 43.87,
+              "lng": 18.42
+            },
+            "name": "Sarajevo"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Bosnia and Herzegovina has a blue field, at the center of which is a large yellow hoist-side facing right-angled triangle that is based on the top edge and spans the height of the field. Adjacent to the hypotenuse of this triangle are nine adjoining five-pointed white stars with the top and bottom stars cut in half by the edges of the field.",
+          "url_png": "https://flags.restcountries.com/v5/w640/ba.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/ba.svg"
+        },
+        "region": "Europe",
+        "area": {
+          "kilometers": 51209,
+          "miles": 19771.9
+        },
+        "population": 3412000
+      }
+    ],
+    "meta": {
+      "total": 54,
+      "count": 6,
+      "limit": 6,
+      "offset": 0,
+      "more": true
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "data": {
+    "objects": [
+      {
+        "names": {
+          "common": "Ukraine"
+        },
+        "codes": {
+          "alpha_3": "UKR"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 50.43,
+              "lng": 30.52
+            },
+            "name": "Kyiv"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Ukraine is composed of two equal horizontal bands of blue and yellow.",
+          "url_png": "https://flags.restcountries.com/v5/w640/ua.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/ua.svg"
+        },
+        "region": "Europe",
+        "subregion": "Eastern Europe",
+        "area": {
+          "kilometers": 603500,
+          "miles": 233012.6
+        },
+        "currencies": [
+          {
+            "code": "UAH",
+            "name": "Ukrainian hryvnia",
+            "symbol": "₴"
+          }
+        ],
+        "languages": [
+          {
+            "bcp47": "uk",
+            "iso639_1": "uk",
+            "iso639_2b": "ukr",
+            "iso639_2t": "ukr",
+            "iso639_3": "ukr",
+            "name": "Ukrainian",
+            "native_name": "Українська"
+          }
+        ],
+        "population": 28700000
+      }
+    ],
+    "meta": {
+      "total": 1,
+      "count": 1,
+      "limit": 25,
+      "offset": 0,
+      "more": false
+    }
+  }
+}

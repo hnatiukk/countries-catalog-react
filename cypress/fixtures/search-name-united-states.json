@@ -1,0 +1,193 @@
+{
+  "data": {
+    "objects": [
+      {
+        "names": {
+          "common": "American Samoa"
+        },
+        "codes": {
+          "alpha_3": "ASM"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": -14.27,
+              "lng": -170.7
+            },
+            "name": "Pago Pago"
+          }
+        ],
+        "flag": {
+          "description": "The flag of American Samoa has a dark blue field, at the center of which is a red-edged white isosceles triangle that is based on the fly end and points towards the hoist side. Within this triangle is a brown and white bald eagle clutching a uatogi war club and a fue fly whisk.",
+          "url_png": "https://flags.restcountries.com/v5/w640/as.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/as.svg"
+        },
+        "region": "Oceania",
+        "area": {
+          "kilometers": 199,
+          "miles": 76.8
+        },
+        "population": 43268
+      },
+      {
+        "names": {
+          "common": "Bahamas"
+        },
+        "codes": {
+          "alpha_3": "BHS"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 25.08,
+              "lng": -77.35
+            },
+            "name": "Nassau"
+          }
+        ],
+        "flag": {
+          "description": "The flag of the Bahamas is composed of three equal horizontal bands of aquamarine, yellow and aquamarine, with a black equilateral triangle superimposed on the hoist side of the field. This triangle has its base on the hoist end and spans about one-third the width of the field.",
+          "url_png": "https://flags.restcountries.com/v5/w640/bs.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/bs.svg"
+        },
+        "region": "Americas",
+        "area": {
+          "kilometers": 13943,
+          "miles": 5383.4
+        },
+        "population": 398165
+      },
+      {
+        "names": {
+          "common": "British Indian Ocean Territory"
+        },
+        "codes": {
+          "alpha_3": "IOT"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": -7.3133,
+              "lng": 72.4111
+            },
+            "name": "Diego Garcia"
+          }
+        ],
+        "flag": {
+          "description": "The flag of the British Indian Ocean Territory has a field of alternating white and blue wavy horizontal bands. It features the flag of the United Kingdom — the Union Jack — in the canton and a palm tree surmounted by a crown in the fly half.",
+          "url_png": "https://flags.restcountries.com/v5/w640/io.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/io.svg"
+        },
+        "region": "Africa",
+        "area": {
+          "kilometers": 60,
+          "miles": 23.2
+        },
+        "population": 2000
+      },
+      {
+        "names": {
+          "common": "British Virgin Islands"
+        },
+        "codes": {
+          "alpha_3": "VGB"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 18.42,
+              "lng": -64.62
+            },
+            "name": "Road Town"
+          }
+        ],
+        "flag": {
+          "description": "The flag of the British Virgin Islands has a dark blue field. It features the flag of the United Kingdom — the Union Jack — in the canton and the coat of arms of the territory — a green shield bearing Saint Ursula holding an oil lamp and flanked by further oil lamps, above a scroll inscribed 'VIGILATE' — centered in the fly half.",
+          "url_png": "https://flags.restcountries.com/v5/w640/vg.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/vg.svg"
+        },
+        "region": "Americas",
+        "area": {
+          "kilometers": 151,
+          "miles": 58.3
+        },
+        "population": 38984
+      },
+      {
+        "names": {
+          "common": "Cambodia"
+        },
+        "codes": {
+          "alpha_3": "KHM"
+        },
+        "capitals": [
+          {
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            },
+            "coordinates": {
+              "lat": 11.55,
+              "lng": 104.92
+            },
+            "name": "Phnom Penh"
+          }
+        ],
+        "flag": {
+          "description": "The flag of Cambodia features three horizontal bands of blue, red and blue, with a white depiction of the temple complex, Angkor Wat centered in the red band.",
+          "url_png": "https://flags.restcountries.com/v5/w640/kh.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/kh.svg"
+        },
+        "region": "Asia",
+        "area": {
+          "kilometers": 181035,
+          "miles": 69898
+        },
+        "population": 17816143
+      }
+    ],
+    "meta": {
+      "total": 21,
+      "count": 5,
+      "limit": 5,
+      "offset": 0,
+      "more": true
+    }
+  }
+}
