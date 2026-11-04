@@ -56,15 +56,8 @@ Two pages, English interface.
 - Named exports for components, one component per file, file name = component name.
 
 ## REST Countries API notes
-- Base URL comes from env variable `VITE_API_BASE_URL` (https://restcountries.com/v3.1).
-- Search by name: `/name/{name}`; search by region: `/region/{region}`;
-  details: `/alpha/{cca3}`.
-- `/all` requires a `fields` query param, and a request may include at most 10 fields.
-  Always use `?fields=` on list requests (name, flags, cca3, region, population, area, capital).
-- Details request may use `fields` with at most 10 fields
-  (name, flags, cca3, region, subregion, capital, population, area, languages, currencies).
-- A 404 from name/region search means "no results": treat it as an empty list, not as an error.
-- Do not invent fields; verify against the API response.
+OUTDATED: REST Countries v3.1 is retired. The API layer will be redesigned in Task 5.
+Do not write API code until instructed.
 
 ## Routing
 - `/` : empty state, "0 countries found", no request is made.
