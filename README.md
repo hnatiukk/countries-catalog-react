@@ -4,6 +4,14 @@ A catalog web application built with React and TypeScript. Users can search
 countries, sort results, and open a country details page. Data comes from the
 [REST Countries API](https://restcountries.com) (v3.1, free, no API key).
 
+## Tech stack
+
+- Vite + React + TypeScript (strict mode)
+- Redux Toolkit + react-redux
+- styled-components
+- Jest + React Testing Library
+- ESLint + Prettier
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) LTS
@@ -14,26 +22,39 @@ countries, sort results, and open a country details page. Data comes from the
 npm install
 ```
 
-### Development
+## Environment variables
 
-```bash
-npm run dev
-```
+Committed mode files (no secrets):
 
-### Production build
+| Variable | Description | Example |
+| --- | --- | --- |
+| `VITE_API_BASE_URL` | REST Countries API base URL | `https://restcountries.com/v3.1` |
+| `VITE_APP_ENV` | App environment label | `development` / `production` |
 
-```bash
-npm run build
-npm run preview
-```
+Files:
 
-### Lint, format, and typecheck
+- `.env.development` — used by `npm run dev` and `npm run build:dev`
+- `.env.production` — used by `npm run build`
+- `.env.example` — documented template
 
-```bash
-npm run lint
-npm run format
-npm run typecheck
-```
+Local overrides belong in `.env*.local` (gitignored). Never commit real secrets.
+All `import.meta.env` access goes through `src/utils/config.ts`.
+
+## Scripts
+
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server (port 5173) |
+| `npm run build` | Typecheck and production build (no source maps, minified) |
+| `npm run build:dev` | Typecheck and development-mode build (with source maps) |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm run format` | Format the repo with Prettier |
+| `npm run typecheck` | TypeScript project references check (`tsc -b --noEmit`) |
+| `npm test` | Run unit tests once |
+| `npm run test:watch` | Run unit tests in watch mode |
+| `npm run test:coverage` | Run unit tests with a coverage report |
+| `npm run test:coverage:check` | Coverage report plus a global 60% threshold |
 
 ## Branching
 
