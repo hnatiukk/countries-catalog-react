@@ -10,6 +10,17 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   store?: AppStore;
 }
 
+export function renderWithTheme(
+  ui: ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'>,
+) {
+  function Wrapper({ children }: { children: ReactNode }) {
+    return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  }
+
+  return render(ui, { wrapper: Wrapper, ...options });
+}
+
 export function renderWithProviders(
   ui: ReactElement,
   {

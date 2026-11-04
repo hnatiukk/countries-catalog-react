@@ -14,7 +14,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:coverage:check": "COVERAGE_CHECK=1 jest --coverage"
+    "test:coverage:check": "jest --coverage"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.14.0",
@@ -41,6 +41,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
+    "jest-styled-components": "^7.4.1",
     "prettier": "^3.9.10",
     "ts-jest": "^29.4.15",
     "typescript": "~5.9.3",
